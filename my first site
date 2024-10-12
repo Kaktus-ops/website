@@ -1,0 +1,57 @@
+from flask import Flask
+import random
+import string 
+
+app = Flask(__name__)
+
+
+facts_list = ['''Большинство людей, страдающих технологической зависимостью, испытывают сильный стресс, когда они находятся вне зоны покрытия сети или не могут использовать свои устройства.''', 
+'''Согласно исследованию, проведенному в 2018 году, более 50% людей в возрасте от 18 до 34 лет считают себя зависимыми от своих смартфонов.''', 
+'''Изучение технологической зависимости является одной из наиболее актуальных областей научных исследований в настоящее время.''', 
+'''Согласно исследованию, проведенному в 2019 году, более 60% людей отвечают на рабочие сообщения в своих смартфонах в течение 15 минут после того, как они вышли с работы.''', 
+'''Один из способов борьбы с технологической зависимостью - это поиск занятий, которые приносят удовольствие и улучшают настроение.''',
+'''Илон Маск утверждает, что социальные сети созданы для того, чтобы удерживать нас внутри платформы, чтобы мы тратили как можно больше времени на просмотр контента.''',
+'''Илон Маск также выступает за регулирование социальных сетей и защиту личных данных пользователей. Он утверждает, что социальные сети собирают огромное количество информации о нас, которую потом можно использовать для манипулирования нашими мыслями и поведением.''',
+'''Социальные сети имеют как позитивные, так и негативные стороны, и мы должны быть более осознанными в использовании этих платформ.''']
+
+
+#@app.route("/")
+#def hallo_world():
+#   return f'<h1>Привет! Здесь ты можешь узнать пару интересных фактов!</h1> <a href="/random_fact">Посмотреть случайный факт!</a>'    
+
+@app.route("/")
+def home():
+    return "<h1>Добро пожаловать на наш сайт!</h1><p>Выберите страницу для посещения:</p><ul><li><a href='/random_fact'>Посмотреть случайный факт!</a></li><li><a href='/coin_toss'>Бросок монетки</a></li><li><a href='/generate_password'>Генератор пароля</a></li><li><a href='/random_image'>Случайная картинка</a></li></ul>"
+
+
+@app.route("/random_fact")
+def facts():
+    return (f'<p>{random.choice(facts_list)}</p>')
+
+@app.route("/coin_toss")
+def coin():
+    result = random.choice(["Орёл", "Решка"])
+    return (f'<h1>Результат броска: {result}</h1>')
+
+@app.route("/generate_password")
+def password():
+    length = 12
+    characters = string.ascii_letters + string.punctuation
+    password = ''.join(random.choice(characters) for i in range(length))
+    return f"<h1>Ваш случайный пароль:</h1><p>{password}</p>"
+
+@app.route("/random_image")
+def image():
+    imagess = [
+        "https://www.memesmonkey.com/images/memesmonkey/ce/ce1fe43d65a4e8fc19b68751a4f80ac6.jpeg",
+        "https://funnyfoto.org/wp-content/uploads/2018/01/Hilarious-Animal-Memes-That-Will-Absolutely-Make-You-Smile-2_01_26_2018.jpg",
+        "https://static.wikia.nocookie.net/81d07d82-09e1-4ee7-9900-6c8c581d8ee5/scale-to-width/755",
+        "https://th.bing.com/th/id/OIP.VGJTFuW3F3paa_lyYSMC8AAAAA?rs=1&pid=ImgDetMain"
+    ]
+    images = random.choice(imagess)
+    return f"<h1>Случайная картинка:</h1><img src='{images}' alt='Random Image'>"
+
+
+
+
+app.run(debug=True)
